@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>elasticsearch-list</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="theme.css" />
+    <script type="text/javascript">
+      var url = "/_nodes/_local/plugins"; 
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var data = JSON.parse(xhr.responseText);
+          for (var node in data.nodes) {
+            data.nodes[node].plugins.sort(function(a, b) { return a["name"] > b["name"] });
+            for (var i in data.nodes[node].plugins) {
+              var plugin = data.nodes[node].plugins[i];
+              document.getElementById("list").innerHTML += "<li><a href="+plugin.url+">"+plugin.name+"</a></li>";
+            }
+          }
+        }
+      }
+      xhr.send();
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <h3>Installed Elasticsearch plugins:</h3>
+      <ul id="list"></ul>
+    </div>
+    <div id="footer">
+      elasticsearch-list | <a href=https://github.com/notonthehighstreet/elasticsearch-list>GitHub</a>
+    </div>
+ </body>
+</html>
