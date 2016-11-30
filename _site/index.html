@@ -15,7 +15,12 @@
             data.nodes[node].plugins.sort(function(a, b) { return a["name"] > b["name"] });
             for (var i in data.nodes[node].plugins) {
               var plugin = data.nodes[node].plugins[i];
-              document.getElementById("list").innerHTML += "<li><a href="+plugin.url+">"+plugin.name+"</a></li>";
+              if (plugin.url) {
+                document.getElementById("list").innerHTML += "<li><a href="+plugin.url+">"+plugin.name+"</a></li>";
+              }
+              else {
+                document.getElementById("list").innerHTML += "<li>"+plugin.name+"</li>";
+              }
             }
           }
         }
